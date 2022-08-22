@@ -6,17 +6,17 @@ Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39).
 By leveraging attention, our architecture (shown in the figure bellow) only maps relevant areas of the image, and by doing so, further enhances the quality of image to image translation.
 
 Our model architecture is defined as depicted below, please refer to the paper for more details: 
-<img src='imgs/image8.jpg' width="900px"/>
+<img src='imgs/image8.png' width="900px"/>
 
 ## Mapping results
 
 ### Horse-to-Zebra image translation results: 
-<img src='imgs/horse2zebra-compared.jpg' width="900px"/>
+<img src='imgs/horse2zebra-compared.png' width="900px"/>
 
 
 ### Apple-to-Orange image translation results: 
 Top row in the figure below are input images and bottom row are the mappings produced by our algorithm.
-<img src='imgs/apple2orange-compared.jpg' width="900px"/>
+<img src='imgs/apple2orange-compared.png' width="900px"/>
 
 
 ## Getting Started
@@ -59,11 +59,10 @@ bash ./datasets/download_cyclegan_dataset.sh horse2zebra
 
 - Then generate the results using
 ```bash
-python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra_pretrained --model test --no_dropout
+python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout
 ```
 - The option `--model test` is used for generating results of CycleGAN only for one side. This option will automatically set `--dataset_mode single`, which only loads the images from one set. On the contrary, using `--model cycle_gan` requires loading and generating results in both directions, which is sometimes unnecessary. The results will be saved at `./results/`. Use `--results_dir {directory_path_to_save_result}` to specify the results directory.
 
-- For pix2pix and your own models, you need to explicitly specify `--netG`, `--norm`, `--no_dropout` to match the generator architecture of the trained model. See this [FAQ](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/qa.md#runtimeerror-errors-in-loading-state_dict-812-671461-296) for more details.
 
 ### Generate the results
 ```bash
