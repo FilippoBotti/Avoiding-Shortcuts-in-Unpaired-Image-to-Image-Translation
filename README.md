@@ -1,4 +1,4 @@
-# Unsupervised Attention-guided Image-to-Image Translation
+# Avoiding Shortcuts in Unpaired Image-to-Image Translation
 
 This repository contains the PyTorch code for our ICIAP 2021 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
 Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). 
