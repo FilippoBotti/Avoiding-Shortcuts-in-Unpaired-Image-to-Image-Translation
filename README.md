@@ -1,7 +1,8 @@
 # Unsupervised Attention-guided Image-to-Image Translation
 
 This repository contains the PyTorch code for our ICIAP 2021 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
-Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). This code is based on the PyTorch implementation of CycleGAN provided by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
+Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). 
+<br>This code is based on the PyTorch implementation of CycleGAN provided by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
 By leveraging attention, our architecture (shown in the figure bellow) only maps relevant areas of the image, and by doing so, further enhances the quality of image to image translation.
 
@@ -15,7 +16,6 @@ Our model architecture is defined as depicted below, please refer to the paper f
 
 
 ### Apple-to-Orange image translation results: 
-Top row in the figure below are input images and bottom row are the mappings produced by our algorithm.
 <img src='imgs/apple2orange-compared.png' width="900px"/>
 
 
@@ -46,31 +46,13 @@ python train.py --dataroot ./datasets/maps --name maps_cyclegan --model cycle_ga
 python test.py --dataroot ./datasets/maps --name maps_cyclegan --model cycle_gan
 ```
 
-### Apply a pre-trained model (CycleGAN)
-- You can download a pretrained model (e.g. horse2zebra) with the following script:
-```bash
-bash ./scripts/download_cyclegan_model.sh horse2zebra
-```
-- The pretrained model is saved at `./checkpoints/{name}_pretrained/latest_net_G.pth`. Check [here](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/scripts/download_cyclegan_model.sh#L3) for all the available CycleGAN models.
-- To test the model, you also need to download the  horse2zebra dataset:
-```bash
-bash ./datasets/download_cyclegan_dataset.sh horse2zebra
-```
-
-- Then generate the results using
-```bash
-python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout
-```
-- The option `--model test` is used for generating results of CycleGAN only for one side. This option will automatically set `--dataset_mode single`, which only loads the images from one set. On the contrary, using `--model cycle_gan` requires loading and generating results in both directions, which is sometimes unnecessary. The results will be saved at `./results/`. Use `--results_dir {directory_path_to_save_result}` to specify the results directory.
-
-
 ### Generate the results
 ```bash
 python test.py --dataroot ./datasets/facades/ --direction BtoA --model pix2pix --name facades_label2photo_pretrained
 ```
 - Note that we specified `--direction BtoA` as Facades dataset's A to B direction is photos to labels.
 
-- If you would like to apply a pre-trained model to a collection of input images (rather than image pairs), please use `--model test` option. See `./scripts/test_single.sh` for how to apply a model to Facade label maps (stored in the directory `facades/testB`).
+
 
 
 
