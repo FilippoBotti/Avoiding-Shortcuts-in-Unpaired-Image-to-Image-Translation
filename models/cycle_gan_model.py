@@ -92,9 +92,8 @@ class CycleGANModel(BaseModel):
             self.optimizers.append(self.optimizer_G)
             self.optimizers.append(self.optimizer_D)
         
-        #Definisco i layer che utilizzo e inizializzo gradcamA e gradcamB (senza i layer)
+        #Select last residual block and initialize GradCam for both the generators.
         self.first_layer = "18"
-        self.layers = []
         self.gradcamG_A = GradCam(model=self.netG_A, discriminator=self.netD_A, feature_module=self.netG_A.module.model, use_cuda=True)
         self.gradcamG_B = GradCam(model=self.netG_B, discriminator=self.netD_B, feature_module=self.netG_B.module.model, use_cuda=True)
         
@@ -111,52 +110,24 @@ class CycleGANModel(BaseModel):
 
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        
-        #self.cam_fake_B = self.generate_attention_map() # out = self.D(self.fake_B)  out.backward() self.netG_A.zero_grad() self.D.zero_grad()
-        
-        # Inizializzo grad_cam nei due modi possibili: G_A, D_A (generatore cavallozebra, discriminatore zebra)
-        # e G_B,D_B (generatore zebracavallo, discriminatore cavallo)
-
-        #inizializare nell'init
-
-        
-    
-        #Prendo l'immagine reale (cavallo), setto il gradiente, e calcolo cam_fake_b
-        #Questo caso è sostanzialmente ciò che abbiamo fatto con gradcam fino ad oggi (un solo layer in questo caso)
-
         self.fake_B = self.netG_A(self.real_A)  # G_A(A)
         horse = self.real_A.requires_grad_(True)   
-        #Genero mappa di attenzione per il primo layer inizializzando self.cam_fake_B
+        #Generate attention map for the selected layer.
         self.cam_fake_B = self.gradcamG_A(horse,self.first_layer,None)
         self.cam_fake_B = self.cam_fake_B.unsqueeze(0)
-        #Genero mappa di attenzione per tutti i layer
-        # for name in (self.layers):
-        #     self.cam_fake_B = torch.cat((self.gradcamG_A(horse,name,None).unsqueeze(0),self.cam_fake_B),dim=0)
-      
-
-        #Applico lo stesso ragionamento per l'immagine ricostruita
-
+        #Same for the rebuild image
         self.rec_A = self.netG_B(self.fake_B)   # G_B(G_A(A))
         horseRec = self.rec_A.detach().requires_grad_(True)
         self.cam_rec_A = self.gradcamG_B(horseRec,self.first_layer,None).unsqueeze(0)
-        # for name in (self.layers):
-        #     self.cam_rec_A = torch.cat((self.gradcamG_B(horseRec,name,None).unsqueeze(0),self.cam_rec_A),dim=0)
-
-        #In modo duale a quanto fatto sopra lo faccio per cavallozebra (fake_A) 
+       
+        #Same for the zebras
 
         self.fake_A = self.netG_B(self.real_B)  # G_B(B)
         zebra = self.real_B.requires_grad_(True)
         self.cam_fake_A = self.gradcamG_B(zebra,self.first_layer,None).unsqueeze(0)
-        # for name in (self.layers):
-        #     self.cam_fake_A = torch.cat((self.gradcamG_B(zebra,name,None).unsqueeze(0),self.cam_fake_A),dim=0)
-
-        #Come prima applico gradcam per la ricostruzione
-
         self.rec_B = self.netG_A(self.fake_A)   # G_A(G_B(B))
         zebraRec = self.rec_B.detach().requires_grad_(True)
         self.cam_rec_B = self.gradcamG_A(zebraRec,self.first_layer,None).unsqueeze(0)
-        # for l in (self.layers):
-        #     self.cam_rec_B = torch.cat((self.gradcamG_A(zebraRec,name,None).unsqueeze(0),self.cam_rec_B),dim=0)
 
     def backward_D_basic(self, netD, real, fake):
         """Calculate GAN loss for the discriminator
@@ -214,14 +185,10 @@ class CycleGANModel(BaseModel):
         # Backward cycle loss || G_A(G_B(B)) - B||
         self.loss_cycle_B = self.criterionCycle(self.rec_B, self.real_B) * lambda_B
         # Attention map loss
-        # self.att_lossA2B = self.MSE_LOSS(self.cam_fake_B, self.cam_rec_A) * 0.1 # MSE_LOSS = nn.MSELoss()
-        # self.att_lossB2A = self.MSE_LOSS(self.cam_fake_A, self.cam_rec_B) * 0.1
-        #Faccio Unsqueeze per ottenere la dimensione conforme all'applicazione della loss
         self.cam_fake_B = self.cam_fake_B.unsqueeze(1)
         self.cam_rec_A = self.cam_rec_A.unsqueeze(1)
         self.cam_fake_A = self.cam_fake_A.unsqueeze(1)
         self.cam_rec_B = self.cam_rec_B.unsqueeze(1)
-        #Calcolo le loss
         self.att_lossA2B = self.MSE_LOSS(self.cam_fake_B,self.cam_rec_A)
         self.att_lossB2A = self.MSE_LOSS(self.cam_fake_A,self.cam_rec_B)
         # combined loss and calculate gradients
