@@ -32,13 +32,10 @@ class FeatureExtractor():
         outputs = []
         self.gradients = []
         for name, module in self.model._modules.items():
-            #print("SECONDO CICLO ", name, "module", module)
             x = module(x)
             if name in self.target_layers:
-                #print(name)
                 x.register_hook(self.save_gradient)
                 outputs += [x]
-        #print("GRADIENTS" , self.gradients)
         return outputs, x
 
 
@@ -60,7 +57,6 @@ class ModelOutputs():
     def __call__(self, x):
         target_activations = []
         for name, module in self.model._modules.items():
-            #print("PRIMO CICLO ", name , "MODULE ", module)
             if module.model == self.feature_module:
                 target_activations, x = self.feature_extractor(x)
             elif "avgpool" in name.lower():
@@ -142,7 +138,8 @@ def show_cam_on_image(img, mask,nome):
 
     im_tile = concat_tile(colonne)
     
-    directory = '/content/drive/MyDrive/GradCamOrange/relucam'
+    #Here if you want to save image to your directory
+    directory = 'PATH'
   
      
     os.chdir(directory) 
@@ -168,7 +165,6 @@ class GradCam:
         return self.model(input)
 
     def __call__(self, input, target_layer_names, index=None):
-        #self.extractor veniva chiamato nell'init ma usava i layer, lo sposto quindi nel call
         self.extractor = ModelOutputs(self.model, self.discriminator , self.feature_module, target_layer_names)
         if self.cuda:
             features, output = self.extractor(input.cuda())
@@ -180,16 +176,11 @@ class GradCam:
 
         one_hot = torch.zeros((1, output.size()[-1]), dtype=torch.float32, requires_grad=True)
         
-        #print(output.size())
-        if self.cuda:
-            one_hot = torch.mean(output)
-        else:
-            one_hot = torch.mean(output)
+        one_hot = torch.mean(output)
 
         self.feature_module.zero_grad()
         self.model.zero_grad()
         one_hot.backward(retain_graph=True)
-        #numpy da eliminare, tutto in torch
         grads_val = self.extractor.get_gradients()[-1].cpu().data
 
         target = features[-1]
