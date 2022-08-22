@@ -3,7 +3,10 @@
 This repository contains the PyTorch code for our ICIAP 2021 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
 Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). 
 <br>This code is based on the PyTorch implementation of CycleGAN provided by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
-<br>Our architecture introduces an additional constraint during the training phase of an unpaired image-to-image
+
+## Brief intro
+
+Our architecture introduces an additional constraint during the training phase of an unpaired image-to-image
 translation network; this forces the model to have the same attention
 both when applying the target domains and when reversing the translation. 
 
