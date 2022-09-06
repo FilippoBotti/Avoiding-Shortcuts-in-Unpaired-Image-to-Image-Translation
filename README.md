@@ -91,7 +91,7 @@ isbn="978-3-031-06427-2"
 
 ## Related Projects
 **[Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix)**<br>
-**[Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam)
+**[Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam)**
 
 
 
