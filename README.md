@@ -3,12 +3,13 @@
 This repository contains the PyTorch code for our ICIAP 2021 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
 Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). 
 <br>This code is based on the PyTorch implementation of CycleGAN provided by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
+And on the PyTorch implementation of GradCam provided by [Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam).
 
 ## Brief intro
 
 Our architecture introduces an additional constraint during the training phase of an unpaired image-to-image
 translation network; this forces the model to have the same attention
-both when applying the target domains and when reversing the translation. 
+both when applying the target domains and when reversing the translation. This attention is calculated with GradCam on the last residual block.
 
 Our model architecture is defined as depicted below, please refer to the paper for more details: 
 <img src='imgs/image8.png' width="900px"/>
@@ -90,9 +91,9 @@ isbn="978-3-031-06427-2"
 
 ## Related Projects
 **[Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix)**<br>
-
+**[Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam)
 
 
 
 ## Acknowledgments
-Our code is inspired by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
+Our code is inspired by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) and by [Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam).
