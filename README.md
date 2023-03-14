@@ -1,6 +1,6 @@
 # Avoiding Shortcuts in Unpaired Image-to-Image Translation
 
-This repository contains the PyTorch code for our ICIAP 2021 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
+This repository contains the PyTorch code for our ICIAP 2022 paper [“Avoiding Shortcuts in Unpaired Image-to-Image
 Translation”](https://link.springer.com/chapter/10.1007/978-3-031-06427-2_39). 
 <br>This code is based on the PyTorch implementation of CycleGAN provided by [Jun-Yan Zhu](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) and on the PyTorch implementation of GradCam provided by [Jacob Gildenblat](https://github.com/jacobgil/pytorch-grad-cam).
 
