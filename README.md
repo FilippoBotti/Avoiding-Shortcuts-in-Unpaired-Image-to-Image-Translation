@@ -28,7 +28,7 @@ Our model architecture is defined as depicted below, please refer to the paper f
 
 - Clone this repo:
 ```bash
-git clone https://github.com/FilippoBotti/cyclegan-paper.git
+git clone https://github.com/FilippoBotti/Avoiding-Shortcuts-in-Unpaired-Image-to-Image-Translation
 ```
 
 - Install [PyTorch](http://pytorch.org) and 0.4+ and other dependencies.
