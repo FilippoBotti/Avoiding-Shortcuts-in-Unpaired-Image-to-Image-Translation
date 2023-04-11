@@ -46,13 +46,12 @@ python train.py --dataroot ./datasets/horse2zebra --name horse2zebra --model cyc
 ```
 - Test the model:
 ```bash
-#!./scripts/test_cyclegan.sh
-!python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
+python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
 ```
 
 ### Generate the results
 ```bash
-!python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
+python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
 ```
 
 
