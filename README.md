@@ -36,25 +36,24 @@ git clone https://github.com/FilippoBotti/cyclegan-paper.git
   - For Conda users, you can create a new Conda environment using `conda env create -f environment.yml`.
 
 ### CycleGAN train/test
-- Download a CycleGAN dataset (e.g. maps):
+- Download a CycleGAN dataset (e.g. horse2zebra):
 ```bash
-bash ./datasets/download_cyclegan_dataset.sh maps
+bash ./datasets/download_cyclegan_dataset.sh horse2zebra
 ```
 - Train a model:
 ```
-python train.py --dataroot ./datasets/maps --name maps_cyclegan --model cycle_gan
+python train.py --dataroot ./datasets/horse2zebra --name horse2zebra --model cycle_gan
 ```
 - Test the model:
 ```bash
 #!./scripts/test_cyclegan.sh
-python test.py --dataroot ./datasets/maps --name maps_cyclegan --model cycle_gan
+!python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
 ```
 
 ### Generate the results
 ```bash
-python test.py --dataroot ./datasets/facades/ --direction BtoA --model pix2pix --name facades_label2photo_pretrained
+!python test.py --dataroot datasets/horse2zebra/testA --name horse2zebra --model test --no_dropout 
 ```
-- Note that we specified `--direction BtoA` as Facades dataset's A to B direction is photos to labels.
 
 
 
